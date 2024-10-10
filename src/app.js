@@ -2,17 +2,20 @@ const express = require("express");
 const { connectDB } = require("./config/database");
 const User = require("./models/user");
 const app = express();
+app.use(express.json());
 app.post("/signup", async (req, res) => {
-  const user = new User({
-    firstName: "shailendra",
-    lastName: "jaiswal",
-    emailId: "ashu6284@gmail.com",
-    password: "12345678",
-    age: 19,
-    gender: "male",
-  });
+  const user = new User(req.body);
   await user.save();
   res.send("data is posted succesfully");
+});
+app.get("/user", async (req, res) => {
+  const findAge = req.body.age;
+  try {
+    const detail = await User.find({ age: findAge });
+    res.send(detail);
+  } catch (err) {
+    console.log("something went wrong");
+  }
 });
 connectDB()
   .then(() => {
