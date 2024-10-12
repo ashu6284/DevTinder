@@ -1,5 +1,5 @@
 const { dbConnect } = require("./config/database");
-const User = require("./model/user");
+const User = require("./models/user");
 const express = require("express");
 const app = express();
 app.use(express.json());
@@ -11,7 +11,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("Data is added succesfully");
   } catch (e) {
-    console.log("something went wrong");
+    console.log(e.message);
   }
 });
 
